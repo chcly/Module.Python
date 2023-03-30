@@ -1,15 +1,35 @@
 #include <cstdio>
+#include "Python.h"
+#include "Utils/String.h"
 #include "gtest/gtest.h"
-#include "ThisDir.h"
 
-GTEST_TEST(Test1, AlwaysTrue)
+namespace Rt2::Python
 {
-    puts(CurrentBuildDirectory);
-    puts(TestFile("inp.ans"));
-    EXPECT_EQ(1, 1);
+    class Interpreter
+    {
+    public:
+        Interpreter()
+        {
+            Py_Initialize();
+        }
+
+        ~Interpreter()
+        {
+            Py_Finalize();
+        }
+
+        void run(const String& script)
+        {
+            PyRun_SimpleString(script.c_str());
+        }
+    };
+
+}  // namespace Rt2::Python
+
+GTEST_TEST(Python, Startup)
+{
+    Rt2::Python::Interpreter vm;
+    vm.run("print('hello')");
 }
 
-GTEST_TEST(Test1, AlwaysFalse)
-{
-    EXPECT_NE(1, 0);
-}
+

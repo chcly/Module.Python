@@ -26,22 +26,31 @@ endif()
 include(StaticRuntime)
 include(GTestUtils)
 include(ExternalTarget)
+include(FindPythonDev)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-option(Template_BUILD_TEST          "Build the unit test program." ON)
-option(Template_AUTO_RUN_TEST       "Automatically run the test program." ON)
-option(Template_USE_STATIC_RUNTIME  "Build with the MultiThreaded(Debug) runtime library." ON)
+option(Python_BUILD_TEST          "Build the unit test program." ON)
+option(Python_AUTO_RUN_TEST       "Automatically run the test program." ON)
+option(Python_USE_STATIC_RUNTIME  "Build with the MultiThreaded(Debug) runtime library." ON)
 
-if (Template_USE_STATIC_RUNTIME)
+if (Python_USE_STATIC_RUNTIME)
     set_static_runtime()
 else()
     set_dynamic_runtime()
 endif()
 
 
-configure_gtest(${Template_SOURCE_DIR}/Test/googletest 
-                ${Template_SOURCE_DIR}/Test/googletest/googletest/include)
+configure_gtest(${Python_SOURCE_DIR}/Test/googletest 
+                ${Python_SOURCE_DIR}/Test/googletest/googletest/include)
 
+
+DefineExternalTargetEx(
+    Utils Extern
+    ${Python_SOURCE_DIR}/Internal/Utils 
+    ${Python_SOURCE_DIR}/Internal/Utils
+    ${Python_BUILD_TEST}
+    ${Python_AUTO_RUN_TEST}
+)
 
 set(Configure_SUCCEEDED TRUE)

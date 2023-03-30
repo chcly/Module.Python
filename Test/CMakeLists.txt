@@ -6,7 +6,11 @@ set(TestTarget_SRC
     Test1.cpp
 )
 
-include_directories(. ${GTEST_INCLUDE})
+include_directories(
+    ${GTEST_INCLUDE}
+    ${Utils_INCLUDE}
+    ${Python_INCLUDE}
+)
 
 add_executable(
     ${TestTargetName}
@@ -15,6 +19,8 @@ add_executable(
 target_link_libraries(
     ${TestTargetName} 
     ${GTEST_LIBRARY}
+    ${Utils_LIBRARY}
+    ${Python_LIBRARY}
 )
 
 set_target_properties(
@@ -23,6 +29,6 @@ set_target_properties(
 )
 
 
-if (Template_AUTO_RUN_TEST)
+if (Python_AUTO_RUN_TEST)
     run_test(${TestTargetName})
 endif()
