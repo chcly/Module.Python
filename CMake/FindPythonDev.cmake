@@ -102,6 +102,27 @@ function(clear_temp)
 
 endfunction()
 
+function(copy_dlls)
+
+    if (PY310_LIBRARY_PATH)
+
+        file(GLOB DLL_DEBUG ${PY310_LIBRARY_PATH}/py*_d.dll)
+        file(GLOB DLL_REL ${PY310_LIBRARY_PATH}/py*.dll)
+
+        foreach(L1 ${DLL_DEBUG})
+            get_filename_component(V1 ${L1} NAME)
+
+            execute_process(COMMAND
+                ${CMAKE_COMMAND} 
+                    -E copy_if_different ${L1} ${CMAKE_BINARY_DIR}/${V1}
+            )
+        endforeach()
+
+    endif()
+endfunction()
+
+
+
 macro(add_import Name D1 R1)
     if (NOT ${Name}_IMPORTED)
         set(${Name}_IMPORTED TRUE PARENT_SCOPE)
@@ -111,19 +132,12 @@ macro(add_import Name D1 R1)
             clear_temp()
             return()
         endif()
-
         add_library(${Name} STATIC IMPORTED)
 
         set_property(
-            TARGET ${Name} APPEND 
-                PROPERTY 
-                IMPORTED_CONFIGURATIONS RELEASE DEBUG MINSIZEREL RELWITHDEBINFO
-            )
-
-
-
-            message("${Python_LIB_DBG_${D1}}")
-
+            TARGET ${Name} APPEND  PROPERTY 
+            IMPORTED_CONFIGURATIONS RELEASE DEBUG MINSIZEREL RELWITHDEBINFO
+        )
         set_target_properties(
             ${Name} 
             PROPERTIES
@@ -144,9 +158,7 @@ macro(include_projects)
 
     if (NOT PyVsProjects_IMPORTED)
         set(PyVsProjects_IMPORTED TRUE PARENT_SCOPE)
-        file(GLOB V1 "${PY310_LIBRARY_PATH}/../py*.vcxproj")
-
-
+        file(GLOB V1 "${PY310_LIBRARY_PATH}/../*.vcxproj")
         foreach(L1 ${V1})
             get_filename_component(V2 ${L1} NAME_WE)
 
@@ -155,7 +167,6 @@ macro(include_projects)
                 ${TargetName}
                 ${L1}
             )
-
             set_target_properties(
                 ${TargetName} 
                 PROPERTIES FOLDER "Extern/ThirdParty/Python"
@@ -178,7 +189,7 @@ function(import_targets)
     endif()
 
     add_import(Python310  python310_d python310)
-
+    copy_dlls()
     clear_temp()
 
 endfunction()

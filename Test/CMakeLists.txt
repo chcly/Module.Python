@@ -5,7 +5,6 @@ gen_path_to_here()
 set(TestTarget_SRC
     Test1.cpp
 )
-add_definitions(-DPy_NO_ENABLE_SHARED)
 
 include_directories(
     ${GTEST_INCLUDE}
