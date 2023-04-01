@@ -11,7 +11,7 @@ include_directories(
     ${Utils_INCLUDE}
 )
 
-
+add_definitions(-DPy_NO_ENABLE_SHARED)
 add_library(
     ${TargetName} 
     ${TargetName_SRC}

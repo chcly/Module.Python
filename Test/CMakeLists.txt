@@ -5,6 +5,7 @@ gen_path_to_here()
 set(TestTarget_SRC
     Test1.cpp
 )
+add_definitions(-DPy_NO_ENABLE_SHARED)
 
 include_directories(
     ${GTEST_INCLUDE}
@@ -28,7 +29,6 @@ set_target_properties(
     PROPERTIES FOLDER "${TargetGroup}"
 )
 
-
 if (Python_AUTO_RUN_TEST)
-    run_test(${TestTargetName})
+    run_test_indir(${TestTargetName} ${CMAKE_BINARY_DIR})
 endif()

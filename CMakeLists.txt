@@ -43,8 +43,8 @@ else()
     set(TargetName Python)
     set(TargetGroup )
 
-    set(Python_INCLUDE  ${Python_SOURCE_DIR} ${Python_SDK_INCLUDE_DIR})
-    set(Python_LIBRARY  ${TargetName} ${Python_SDK_LIBRARY})
+    set(Python_INCLUDE  ${Python_SOURCE_DIR} ${Python_SDK_INCLUDE})
+    set(Python_LIBRARY  ${TargetName} Python310)
 endif()
 
 add_subdirectory(Source)
