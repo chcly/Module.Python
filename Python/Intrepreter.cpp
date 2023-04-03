@@ -1,5 +1,5 @@
-#include "Source/Intrepreter.h"
-#include "Source/PyProxy.h"
+#include "Python/Intrepreter.h"
+#include "Python/PyProxy.h"
 
 namespace Rt2
 {
