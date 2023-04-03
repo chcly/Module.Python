@@ -47,7 +47,7 @@ else()
     set(Python_LIBRARY  ${TargetName} Python310)
 endif()
 
-add_subdirectory(Source)
+add_subdirectory(Python)
 
 if (Python_BUILD_TEST)
     if (NOT Python_ExternalTarget)
